@@ -1,0 +1,160 @@
+.snake-page {
+  min-height: 100vh;
+  background: #09090f;
+  color: white;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.snake-header {
+  width: 600px;
+  max-width: 95vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.game-label {
+  color: #8b5cf6;
+  font-size: 13px;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+.snake-header h1 {
+  margin: 5px 0 0;
+  font-size: 36px;
+}
+
+.score {
+  background: #151520;
+  border: 1px solid #33334a;
+  border-radius: 10px;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+.score span {
+  display: block;
+  color: #999;
+  font-size: 12px;
+}
+
+.score strong {
+  display: block;
+  color: #a78bfa;
+  font-size: 25px;
+}
+
+.snake-board {
+  position: relative;
+
+  width: 600px;
+  max-width: 90vw;
+  aspect-ratio: 1;
+
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+
+  background: #11111b;
+  border: 3px solid #8b5cf6;
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.25);
+}
+
+.cell {
+  border: 1px solid rgba(255, 255, 255, 0.04);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+}
+
+.snake-cell {
+  background: #8b5cf6;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
+}
+
+.snake-head {
+  background: #c4b5fd;
+  border-radius: 6px;
+}
+
+.food-cell {
+  font-size: 22px;
+}
+
+.game-message {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(9, 9, 15, 0.88);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+}
+
+.game-message h2 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.game-message p {
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.game-message button {
+  background: #8b5cf6;
+  color: white;
+  border: none;
+
+  padding: 12px 25px;
+
+  border-radius: 8px;
+
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.game-message button:hover {
+  background: #7c3aed;
+}
+
+.controls {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.controls p {
+  color: #aaa;
+}
+
+.controls button {
+  margin-top: 10px;
+
+  background: #8b5cf6;
+  color: white;
+  border: none;
+
+  padding: 12px 25px;
+
+  border-radius: 8px;
+
+  font-weight: bold;
+  cursor: pointer;
+}

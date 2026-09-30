@@ -1,0 +1,384 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.snake-page {
+  min-height: 100vh;
+  padding: 60px 20px;
+  background:
+    radial-gradient(
+      circle at 50% 15%,
+      rgba(139, 92, 246, 0.18),
+      transparent 35%
+    ),
+    #07070d;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Name Screen */
+
+.name-screen {
+  width: min(500px, 100%);
+  min-height: 480px;
+  margin: 70px auto;
+  padding: 55px 45px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 25px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(139, 92, 246, 0.1),
+      rgba(255, 255, 255, 0.025)
+    );
+  box-shadow:
+    0 30px 100px rgba(0, 0, 0, 0.45),
+    0 0 80px rgba(139, 92, 246, 0.08);
+  backdrop-filter: blur(15px);
+}
+
+.name-screen .game-label {
+  color: #9b63ff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  margin-bottom: 18px;
+}
+
+.name-screen h1 {
+  margin: 0 0 15px;
+  font-size: 52px;
+  line-height: 1;
+  color: #ffffff;
+  letter-spacing: -2px;
+}
+
+.name-screen p:not(.game-label) {
+  color: #9996a5;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.name-screen input {
+  width: 100%;
+  height: 54px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  outline: none;
+  background: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  font-size: 16px;
+  text-align: center;
+  transition: 0.25s;
+}
+
+.name-screen input::placeholder {
+  color: #696674;
+}
+
+.name-screen input:focus {
+  border-color: #8b5cf6;
+  box-shadow:
+    0 0 0 3px rgba(139, 92, 246, 0.12),
+    0 0 25px rgba(139, 92, 246, 0.12);
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.name-screen button {
+  width: 100%;
+  height: 54px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 12px;
+  background: #8b5cf6;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s;
+  box-shadow: 0 12px 30px rgba(139, 92, 246, 0.25);
+}
+
+.name-screen button:hover {
+  transform: translateY(-2px);
+  background: #9d70ff;
+  box-shadow: 0 16px 35px rgba(139, 92, 246, 0.4);
+}
+
+.name-screen button:active {
+  transform: translateY(0);
+}
+
+/* Game Header */
+
+.snake-header {
+  width: min(900px, 100%);
+  margin: 0 auto 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.game-label {
+  color: #9b63ff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  margin-bottom: 7px;
+}
+
+.snake-header h1 {
+  font-size: 42px;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+.score {
+  min-width: 120px;
+  padding: 12px 20px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 12px;
+  background: rgba(139, 92, 246, 0.08);
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.08);
+}
+
+.score span {
+  display: block;
+  color: #85828f;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.score strong {
+  color: #a875ff;
+  font-size: 25px;
+}
+
+/* Game Board */
+
+.snake-board {
+  width: min(600px, 90vw);
+  height: min(600px, 90vw);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  grid-template-rows: repeat(20, 1fr);
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #8b5cf6;
+  border-radius: 12px;
+  background: #090910;
+  box-shadow:
+    0 0 30px rgba(139, 92, 246, 0.2),
+    0 0 80px rgba(139, 92, 246, 0.08),
+    inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.cell {
+  border-right: 1px solid rgba(255, 255, 255, 0.025);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.025);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(10px, 2vw, 22px);
+}
+
+.snake-cell {
+  background: #8b5cf6;
+  border-radius: 4px;
+  box-shadow:
+    0 0 8px rgba(139, 92, 246, 0.35),
+    inset 0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.snake-head {
+  background: #b78aff;
+  box-shadow:
+    0 0 14px rgba(139, 92, 246, 0.7),
+    inset 0 0 6px rgba(255, 255, 255, 0.25);
+}
+
+.food-cell {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+/* Game Message */
+
+.game-message {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(5, 5, 10, 0.82);
+  backdrop-filter: blur(5px);
+  z-index: 10;
+}
+
+.game-message h2 {
+  font-size: 42px;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.game-message p {
+  color: #b3b0bd;
+  margin-bottom: 22px;
+  font-size: 16px;
+}
+
+.game-message button {
+  border: none;
+  padding: 13px 28px;
+  border-radius: 10px;
+  background: #8b5cf6;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s;
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.2);
+}
+
+.game-message button:hover {
+  transform: translateY(-2px);
+  background: #9d70ff;
+  box-shadow: 0 15px 30px rgba(139, 92, 246, 0.35);
+}
+
+/* Controls */
+
+.controls {
+  width: min(600px, 90vw);
+  margin: 22px auto 0;
+  text-align: center;
+}
+
+.controls p {
+  color: #6f6c79;
+  font-size: 13px;
+}
+
+.controls button {
+  margin-top: 15px;
+  padding: 13px 28px;
+  border: none;
+  border-radius: 10px;
+  background: #8b5cf6;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.controls button:hover {
+  background: #9d70ff;
+  transform: translateY(-2px);
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  .snake-page {
+    padding: 45px 20px;
+  }
+
+  .name-screen {
+    margin: 45px auto;
+  }
+
+  .snake-board {
+    width: min(560px, 90vw);
+    height: min(560px, 90vw);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .snake-page {
+    padding: 30px 15px;
+  }
+
+  .name-screen {
+    min-height: 420px;
+    margin: 30px auto;
+    padding: 40px 25px;
+    border-radius: 20px;
+  }
+
+  .name-screen h1 {
+    font-size: 42px;
+  }
+
+  .name-screen p:not(.game-label) {
+    font-size: 14px;
+  }
+
+  .name-screen input,
+  .name-screen button {
+    height: 50px;
+  }
+
+  .snake-header {
+    margin-bottom: 18px;
+  }
+
+  .snake-header h1 {
+    font-size: 30px;
+  }
+
+  .game-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .score {
+    min-width: 90px;
+    padding: 10px 14px;
+  }
+
+  .score span {
+    font-size: 10px;
+  }
+
+  .score strong {
+    font-size: 20px;
+  }
+
+  .snake-board {
+    width: 94vw;
+    height: 94vw;
+    border-radius: 8px;
+  }
+
+  .game-message h2 {
+    font-size: 32px;
+  }
+
+  .game-message p {
+    font-size: 14px;
+  }
+
+  .game-message button {
+    padding: 11px 22px;
+  }
+
+  .controls {
+    width: 94vw;
+  }
+}

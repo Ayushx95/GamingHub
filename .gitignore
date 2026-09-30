@@ -1,0 +1,7 @@
+.vs/
+**/bin/
+**/obj/
+GamingHub.Client/node_modules/
+GamingHub.Client/dist/
+.env
+.env.*
