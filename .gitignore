@@ -5,3 +5,7 @@ GamingHub.Client/node_modules/
 GamingHub.Client/dist/
 .env
 .env.*
+*.db
+*.db-shm
+*.db-wal
+*.tmp
