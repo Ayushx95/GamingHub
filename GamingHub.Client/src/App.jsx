@@ -10,7 +10,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("https://localhost:44355/api/Games")
+      .get("https://gaminghub-n9w6.onrender.com/api/Games")
       .then((response) => {
         setGames(response.data);
       })
@@ -21,7 +21,7 @@ function Home() {
 
   useEffect(() => {
     axios
-      .get("https://localhost:44355/Score")
+      .get("https://gaminghub-n9w6.onrender.com/Score")
       .then((response) => {
         setScores(response.data);
       })

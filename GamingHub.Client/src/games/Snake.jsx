@@ -27,7 +27,7 @@ function Snake() {
       console.log("Saving score:", finalScore);
 
       const response = await axios.post(
-        "https://localhost:44355/Score",
+        "https://gaminghub-n9w6.onrender.com/Score",
         {
           playerName: playerName,
           gameName: "Snake",
