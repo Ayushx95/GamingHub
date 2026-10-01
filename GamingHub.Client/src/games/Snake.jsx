@@ -17,11 +17,11 @@ function Snake() {
   const [gameOver, setGameOver] = useState(false);
   const [started, setStarted] = useState(false);
 
-  // Player name
   const [playerName, setPlayerName] = useState("");
   const [nameSubmitted, setNameSubmitted] = useState(false);
 
-  // Save score to backend
+  const [touchStart, setTouchStart] = useState(null);
+
   const saveScore = async (finalScore) => {
     try {
       console.log("Saving score:", finalScore);
@@ -41,14 +41,12 @@ function Snake() {
     }
   };
 
-  // Save score when game is over
   useEffect(() => {
     if (gameOver && nameSubmitted) {
       saveScore(score);
     }
   }, [gameOver]);
 
-  // Keyboard controls
   useEffect(() => {
     const handleKeyDown = (event) => {
       const key = event.key.toLowerCase();
@@ -81,7 +79,51 @@ function Snake() {
     };
   }, [direction, started, gameOver]);
 
-  // Game loop
+  const handleTouchStart = (event) => {
+    if (!started || gameOver) {
+      return;
+    }
+
+    const touch = event.touches[0];
+
+    setTouchStart({
+      x: touch.clientX,
+      y: touch.clientY,
+    });
+  };
+
+  const handleTouchEnd = (event) => {
+    if (!started || gameOver || !touchStart) {
+      return;
+    }
+
+    const touch = event.changedTouches[0];
+
+    const deltaX = touch.clientX - touchStart.x;
+    const deltaY = touch.clientY - touchStart.y;
+
+    if (Math.abs(deltaX) < 30 && Math.abs(deltaY) < 30) {
+      setTouchStart(null);
+      return;
+    }
+
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      if (deltaX > 0 && direction !== "LEFT") {
+        setDirection("RIGHT");
+      } else if (deltaX < 0 && direction !== "RIGHT") {
+        setDirection("LEFT");
+      }
+    } else {
+      if (deltaY > 0 && direction !== "UP") {
+        setDirection("DOWN");
+      } else if (deltaY < 0 && direction !== "DOWN") {
+        setDirection("UP");
+      }
+    }
+
+    setTouchStart(null);
+  };
+
   useEffect(() => {
     if (!started || gameOver) {
       return;
@@ -94,7 +136,6 @@ function Snake() {
     return () => clearInterval(timer);
   });
 
-  // Move snake
   const moveSnake = () => {
     setSnake((currentSnake) => {
       const head = currentSnake[0];
@@ -115,7 +156,6 @@ function Snake() {
               : head.y,
       };
 
-      // Wall collision
       if (
         newHead.x < 0 ||
         newHead.x >= BOARD_SIZE ||
@@ -126,7 +166,6 @@ function Snake() {
         return currentSnake;
       }
 
-      // Body collision
       const hitBody = currentSnake.some(
         (part) =>
           part.x === newHead.x &&
@@ -140,7 +179,6 @@ function Snake() {
 
       const newSnake = [newHead, ...currentSnake];
 
-      // Food collision
       if (
         newHead.x === food.x &&
         newHead.y === food.y
@@ -155,14 +193,12 @@ function Snake() {
         return newSnake;
       }
 
-      // Remove tail
       newSnake.pop();
 
       return newSnake;
     });
   };
 
-  // Start game
   const startGame = () => {
     if (playerName.trim() === "") {
       return;
@@ -172,7 +208,6 @@ function Snake() {
     setStarted(true);
   };
 
-  // Restart game
   const restartGame = () => {
     setSnake([
       { x: 10, y: 10 },
@@ -187,13 +222,10 @@ function Snake() {
     setStarted(true);
   };
 
-  // Name screen
   if (!nameSubmitted) {
     return (
       <div className="snake-page">
-
         <div className="name-screen">
-
           <p className="game-label">
             ARCADE
           </p>
@@ -221,19 +253,14 @@ function Snake() {
           <button onClick={startGame}>
             Start Game
           </button>
-
         </div>
-
       </div>
     );
   }
 
   return (
     <div className="snake-page">
-
-      {/* HEADER */}
       <div className="snake-header">
-
         <div>
           <p className="game-label">
             PLAYER: {playerName}
@@ -246,16 +273,16 @@ function Snake() {
           <span>Score</span>
           <strong>{score}</strong>
         </div>
-
       </div>
 
-      {/* GAME BOARD */}
-      <div className="snake-board">
-
+      <div
+        className="snake-board"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
         {Array.from({
           length: BOARD_SIZE * BOARD_SIZE,
         }).map((_, index) => {
-
           const x = index % BOARD_SIZE;
           const y = Math.floor(index / BOARD_SIZE);
 
@@ -288,10 +315,8 @@ function Snake() {
           );
         })}
 
-        {/* GAME OVER */}
         {gameOver && (
           <div className="game-message">
-
             <h2>
               Game Over
             </h2>
@@ -307,21 +332,19 @@ function Snake() {
             <button onClick={restartGame}>
               Play Again
             </button>
-
           </div>
         )}
-
       </div>
 
-      {/* CONTROLS */}
       <div className="controls">
-
         <p>
-          Use ↑ ↓ ← → to move
+          💻 Laptop: Use ↑ ↓ ← →
         </p>
 
+        <p>
+          📱 Phone: Swipe on the board
+        </p>
       </div>
-
     </div>
   );
 }
