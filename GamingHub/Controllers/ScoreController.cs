@@ -25,6 +25,7 @@ namespace GamingHub.Controllers
         [HttpPost]
         public async Task<IActionResult> AddScore(Score score)
         {
+            score.CreatedAt = DateTime.UtcNow;
             _context.Scores.Add(score);
 
             await _context.SaveChangesAsync();
