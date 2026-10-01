@@ -18,6 +18,7 @@ namespace GamingHub.Controllers
         {
             var scores = await _context.Scores
             .OrderByDescending(s => s.Points)
+            .Take(3)
             .ToListAsync();
             return Ok(scores);
         }
